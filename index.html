@@ -175,8 +175,7 @@
         <div class="container mx-auto px-6 pt-20 relative z-20 flex flex-col justify-center h-full">
             <div class="max-w-3xl">
                 <span class="hero-anim inline-block py-1.5 px-4 rounded-full bg-orange-500/20 text-orange-300 text-xs md:text-sm font-bold tracking-widest uppercase mb-5 border border-orange-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(234,88,12,0.2)]">🇰🇷 Myeongdong, Seoul</span>
-                <h1 class="hero-anim hero-delay-1 text-5xl md:text-7xl lg:text-8xl text-white font-bold leading-tight mb-4 md:mb-6 text-shadow-sm">
-                    A Taste of <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Malaysia</span><br>In Seoul.
+                <h1 id="heroTitle" class="hero-anim hero-delay-1 text-5xl md:text-7xl lg:text-8xl text-white font-bold leading-tight mb-4 md:mb-6 text-shadow-sm">
                 </h1>
                 <p class="hero-anim hero-delay-2 text-base md:text-xl text-slate-200 mb-8 md:mb-10 leading-relaxed max-w-xl text-shadow-sm font-light">
                     Nikmati Nasi Lemak asli, Kari Laksa, dan hospitaliti Malaysia yang paling mesra di tengah-tengah kesibukan kota Seoul.
@@ -220,6 +219,7 @@
                         <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('nasi', this)">Menu Nasi</button>
                         <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('mee', this)">Mee & Roti</button>
                         <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('sampingan', this)">Sampingan</button>
+                        <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600" onclick="surpriseMe()">🎲 Surprise Me</button>
                     </div>
                 </div>
             </div>
@@ -710,7 +710,7 @@
         <i data-lucide="arrow-up" class="w-5 h-5 md:w-6 md:h-6"></i>
     </button>
 
-    <a href="https://wa.me/60123456789" target="_blank" class="fixed bottom-28 md:bottom-8 right-4 md:right-8 z-40 bg-gradient-to-tr from-green-500 to-green-400 text-white p-3.5 md:p-4 rounded-full shadow-[0_10px_25px_rgba(34,197,94,0.4)] hover:scale-110 transition-transform floating-wa border border-green-300">
+    <a href="https://wa.me/821058338310" target="_blank" class="fixed bottom-28 md:bottom-8 right-4 md:right-8 z-40 bg-gradient-to-tr from-green-500 to-green-400 text-white p-3.5 md:p-4 rounded-full shadow-[0_10px_25px_rgba(34,197,94,0.4)] hover:scale-110 transition-transform floating-wa border border-green-300">
         <i data-lucide="message-circle" class="w-6 h-6 md:w-7 md:h-7 fill-current"></i>
     </a>
 
@@ -772,7 +772,7 @@
     <script>
         // --- 1. CORE SYSTEM: TROLI (Paling Penting!) ---
         let cart = []; 
-        const whatsappNumber = "60123456789"; // LETAK NOMBOR TELEFON KAKAK DI SINI
+        const whatsappNumber = "821058338310"; // LETAK NOMBOR TELEFON KAKAK DI SINI
 
         function toggleCart() {
             const cartSidebar = document.getElementById('cartSidebar');
@@ -961,6 +961,47 @@
             }, 300);
         }
 
+        function surpriseMe() {
+            // Collect all menu items
+            const menuItems = [
+                { name: 'Nasi Goreng Kampung', price: 13900 },
+                { name: 'Sate Ayam', price: 16000 },
+                { name: 'Roti Canai Kuah Kari', price: 9500 },
+                { name: 'Nasi Lemak Ayam Berempah', price: 14000 },
+                { name: 'Nasi Ayam Hainan', price: 13900 },
+                { name: 'Ayam Popcorn Buttermilk', price: 13900 },
+                { name: 'Nasi Putih Ayam Rendang', price: 13900 },
+                { name: 'Ayam Gulai Lemak', price: 13900 },
+                { name: 'Ayam Masak Merah', price: 13900 },
+                { name: 'Ayam Kicap', price: 13900 },
+                { name: 'Meehoon Soto', price: 13900 },
+                { name: 'Nasi Putih Sup Daging', price: 13900 },
+                { name: 'Nasi Bujang', price: 9500 },
+                { name: 'Beef Bulgogi', price: 13900 },
+                { name: 'Rojak Mee', price: 13900 },
+                { name: 'Mi Goreng', price: 13900 },
+                { name: 'Mee Kari', price: 13900 },
+                { name: 'Ayam Popcorn', price: 9500 }
+            ];
+            
+            const randomItem = menuItems[Math.floor(Math.random() * menuItems.length)];
+            addToCart(randomItem.name, randomItem.price);
+            
+            // Extra confetti for surprise
+            try {
+                if (typeof confetti !== 'undefined') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 160,
+                        origin: { y: 0.6 },
+                        colors: ['#ea580c', '#fb923c', '#fcd34d', '#f97316', '#dc2626'],
+                        disableForReducedMotion: true,
+                        zIndex: 9999
+                    });
+                }
+            } catch(e) {}
+        }
+
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             const scrollTopBtn = document.getElementById('scrollTopBtn');
@@ -985,6 +1026,31 @@
                     AOS.init({ duration: 800, once: true, offset: 50, disable: 'mobile' });
                 }
             } catch(e) {}
+
+            // Typing Effect untuk Hero Title
+            const heroTitle = document.getElementById('heroTitle');
+            if (heroTitle) {
+                const fullText = 'A Taste of Malaysia\nIn Seoul.';
+                heroTitle.innerHTML = '<span id="typed-text"></span><span id="cursor" class="animate-pulse text-orange-400">|</span>';
+                const typedText = document.getElementById('typed-text');
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < fullText.length) {
+                        if (fullText.charAt(i) === '\n') {
+                            typedText.innerHTML += '<br>';
+                        } else {
+                            typedText.innerHTML += fullText.charAt(i);
+                        }
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    } else {
+                        // After typing, apply the gradient to "Malaysia" and hide cursor
+                        typedText.innerHTML = typedText.innerHTML.replace('Malaysia', '<span class="italic text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Malaysia</span>');
+                        document.getElementById('cursor').style.display = 'none';
+                    }
+                };
+                setTimeout(typeWriter, 1000); // Start after 1 second
+            }
 
             try {
                 if(typeof particlesJS !== 'undefined') {
