@@ -6,538 +6,645 @@
     <title>Lepak Laa Seoul | Authentic Malaysian Taste</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
             --primary: #ea580c;
+            --primary-hover: #c2410c;
             --dark: #0f172a;
         }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; background-color: #fafaf9; }
         h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
 
+        /* Corak Latar Belakang Premium */
+        .bg-pattern {
+            background-color: #fafaf9;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Navbar Styling */
         .nav-glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             transition: all 0.4s ease;
         }
-        .scrolled { padding: 0.5rem 0 !important; background: rgba(255, 255, 255, 0.95); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .scrolled { padding: 0.5rem 0 !important; background: rgba(255, 255, 255, 0.98); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08); }
 
-        .btn-hover {
+        /* Button Styling */
+        .btn-premium {
+            background: linear-gradient(135deg, var(--primary), #f97316);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px 0 rgba(234, 88, 12, 0.39);
         }
-        .btn-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(234, 88, 12, 0.3); }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5); }
+        .btn-premium:active { transform: translateY(0); }
 
-        .menu-card {
-            transition: all 0.5s ease;
-            border: 1px solid transparent;
+        .btn-dark {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            transition: all 0.3s ease;
+        }
+        .btn-dark:hover { background: linear-gradient(135deg, var(--primary), #f97316); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(234, 88, 12, 0.3); }
+
+        /* Menu Card Styling */
+        .menu-card { 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid rgba(0,0,0,0.04); 
+            background: #ffffff;
         }
         .menu-card:hover {
-            border-color: var(--primary);
-            transform: scale(1.02);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(234, 88, 12, 0.2);
         }
+        
+        .img-hover-effect { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .menu-card:hover .img-hover-effect { transform: scale(1.12) rotate(2deg); }
 
+        /* Hero Overlay */
         .hero-overlay {
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9)), url('images/627544176_18215005510314997_6814164054822719999_n..jpg');
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.9)), url('images/627544176_18215005510314997_6814164054822719999_n..jpg');
             background-size: cover;
             background-position: center;
         }
 
-        .text-shadow-sm { text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .text-shadow-sm { text-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         
+        /* Scrollbars */
         .cart-scroll::-webkit-scrollbar { width: 6px; }
         .cart-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
         .cart-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        #menuGrid {
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-            opacity: 1;
-            transform: translateY(0);
+        /* Animations */
+        #menuGrid { transition: opacity 0.4s ease-out, transform 0.4s ease-out; opacity: 1; transform: translateY(0); }
+        
+        /* Tab Buttons Design */
+        .tab-btn { 
+            white-space: nowrap; 
+            flex-shrink: 0; 
+            transition: all 0.3s ease; 
+            background-color: #ffffff;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
+        .tab-btn:hover { background-color: #f8fafc; transform: translateY(-2px); }
         .tab-btn.active {
             background-color: var(--primary);
             color: white;
-            box-shadow: 0 10px 15px -3px rgba(234, 88, 12, 0.3);
+            box-shadow: 0 4px 14px rgba(234, 88, 12, 0.4);
             border-color: var(--primary);
+            transform: translateY(-2px);
         }
+
+        /* Floating WA */
+        @keyframes floatWA {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating-wa { animation: floatWA 3s ease-in-out infinite; }
+
+        /* Hero Animation Fallback */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-anim { animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .hero-delay-1 { animation-delay: 0.2s; opacity: 0; }
+        .hero-delay-2 { animation-delay: 0.4s; opacity: 0; }
+        .hero-delay-3 { animation-delay: 0.6s; opacity: 0; }
     </style>
 </head>
-<body class="bg-white text-slate-900">
+<body class="text-slate-900 overflow-x-hidden">
 
-    <nav id="navbar" class="fixed w-full z-50 nav-glass py-4 lg:py-6 border-b border-slate-100">
+    <nav id="navbar" class="fixed w-full z-50 nav-glass py-4 lg:py-5 border-b border-slate-200/50">
         <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 md:w-10 md:h-10 bg-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-lg md:text-xl">L</div>
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-lg shadow-orange-500/30">L</div>
                 <span class="text-xl md:text-2xl font-bold tracking-tighter text-slate-900 hidden sm:block">Lepak Laa <span class="text-orange-600">.</span></span>
             </div>
             
-            <div class="hidden md:flex space-x-10 font-semibold text-sm uppercase tracking-widest text-slate-600">
-                <a href="#home" class="hover:text-orange-600 transition">Utama</a>
-                <a href="#menu" class="hover:text-orange-600 transition">Menu</a>
-                <a href="#location" class="hover:text-orange-600 transition">Lokasi</a>
+            <div class="hidden md:flex space-x-10 font-semibold text-sm uppercase tracking-widest text-slate-500">
+                <a href="#home" class="hover:text-orange-600 transition hover:scale-105 inline-block">Utama</a>
+                <a href="#menu" class="hover:text-orange-600 transition hover:scale-105 inline-block">Menu</a>
+                <a href="#location" class="hover:text-orange-600 transition hover:scale-105 inline-block">Lokasi</a>
             </div>
 
             <div class="flex items-center gap-2 sm:gap-4">
-                <button onclick="toggleCart()" class="relative p-2 text-slate-700 hover:text-orange-600 transition">
-                    <i data-lucide="shopping-bag" class="w-5 h-5 md:w-6 md:h-6"></i>
-                    <span id="cartCount" class="absolute top-0 right-0 bg-orange-600 text-white text-[10px] font-bold h-4 w-4 md:h-5 md:w-5 rounded-full flex items-center justify-center transform translate-x-1 -translate-y-1 scale-0 transition-transform duration-300">0</span>
+                <button type="button" onclick="toggleCart()" class="relative p-2 text-slate-600 hover:text-orange-600 transition z-50">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 md:w-6 md:h-6 hover:scale-110 transition-transform"></i>
+                    <span id="cartCount" class="absolute top-0 right-0 bg-orange-600 text-white text-[10px] font-bold h-4 w-4 md:h-5 md:w-5 rounded-full flex items-center justify-center transform translate-x-1 -translate-y-1 scale-0 transition-all duration-300 shadow-md">0</span>
                 </button>
                 
-                <button onclick="toggleModal('bookingModal')" class="btn-hover bg-slate-900 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-bold text-[10px] sm:text-sm flex items-center gap-2">
+                <button type="button" onclick="toggleModal('bookingModal')" class="btn-dark text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-bold text-[11px] sm:text-sm flex items-center gap-2">
                     <i data-lucide="calendar" class="w-3 h-3 sm:w-4 sm:h-4"></i> <span class="hidden sm:inline">TEMPAH MEJA</span><span class="sm:hidden">TEMPAH</span>
                 </button>
 
-                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 p-1 ml-1 hover:text-orange-600 transition">
+                <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-slate-700 p-1 ml-1 hover:text-orange-600 transition">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <div id="mobileMenu" class="fixed inset-0 bg-white/95 backdrop-blur-md z-[90] transform translate-x-full transition-transform duration-300 flex flex-col pt-24 px-8 items-center text-center">
-        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-slate-500 hover:text-orange-600 p-2">
-            <i data-lucide="x" class="w-8 h-8"></i>
+    <div id="mobileMenu" class="fixed inset-0 bg-white/95 backdrop-blur-xl z-[90] transform translate-x-full transition-transform duration-400 flex flex-col pt-24 px-8 items-center text-center">
+        <button type="button" onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-slate-500 hover:text-orange-600 p-2 bg-slate-100 rounded-full hover:rotate-90 transition-transform">
+            <i data-lucide="x" class="w-6 h-6"></i>
         </button>
         <a href="#home" onclick="toggleMobileMenu()" class="text-3xl font-bold text-slate-800 my-6 hover:text-orange-600 transition">Utama</a>
         <a href="#menu" onclick="toggleMobileMenu()" class="text-3xl font-bold text-slate-800 my-6 hover:text-orange-600 transition">Menu</a>
         <a href="#location" onclick="toggleMobileMenu()" class="text-3xl font-bold text-slate-800 my-6 hover:text-orange-600 transition">Lokasi</a>
         
         <div class="mt-auto pb-12 flex gap-8 text-slate-400">
-            <i data-lucide="instagram" class="w-8 h-8"></i>
-            <i data-lucide="facebook" class="w-8 h-8"></i>
+            <a href="https://instagram.com/lepaklaa" target="_blank" class="hover:text-orange-500 hover:-translate-y-2 transition-all"><i data-lucide="instagram" class="w-8 h-8"></i></a>
+            <a href="#" class="hover:text-orange-500 hover:-translate-y-2 transition-all"><i data-lucide="facebook" class="w-8 h-8"></i></a>
         </div>
     </div>
 
     <section id="home" class="hero-overlay h-screen flex items-center relative overflow-hidden">
         <div id="particles-hero" class="absolute inset-0 pointer-events-none z-0"></div>
-        <div class="container mx-auto px-6 pt-20 relative z-10">
-            <div class="max-w-3xl" data-aos="fade-right" data-aos-duration="1000">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl text-white font-bold leading-tight mb-4 md:mb-6 text-shadow-sm">
-                    A Taste of <span class="italic text-orange-500">Malaysia</span> In Seoul.
+        <div class="container mx-auto px-6 pt-20 relative z-20 flex flex-col justify-center h-full">
+            <div class="max-w-3xl">
+                <span class="hero-anim inline-block py-1.5 px-4 rounded-full bg-orange-500/20 text-orange-300 text-xs md:text-sm font-bold tracking-widest uppercase mb-5 border border-orange-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(234,88,12,0.2)]">🇰🇷 Myeongdong, Seoul</span>
+                <h1 class="hero-anim hero-delay-1 text-5xl md:text-7xl lg:text-8xl text-white font-bold leading-tight mb-4 md:mb-6 text-shadow-sm">
+                    A Taste of <span class="italic text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Malaysia</span><br>In Seoul.
                 </h1>
-                <p class="text-base md:text-xl text-slate-200 mb-8 md:mb-10 leading-relaxed max-w-xl text-shadow-sm">
-                    Nikmati Nasi Lemak asli, Kari Laksa, dan hospitaliti Malaysia yang paling mesra di tengah-tengah bandar Seoul.
+                <p class="hero-anim hero-delay-2 text-base md:text-xl text-slate-200 mb-8 md:mb-10 leading-relaxed max-w-xl text-shadow-sm font-light">
+                    Nikmati Nasi Lemak asli, Kari Laksa, dan hospitaliti Malaysia yang paling mesra di tengah-tengah kesibukan kota Seoul.
                 </p>
-                <div class="flex flex-wrap gap-4 md:gap-5">
-                    <a href="#menu" class="btn-hover bg-white text-slate-900 px-6 py-3 md:px-10 md:py-5 rounded-2xl font-bold text-sm md:text-lg flex items-center gap-3">
-                        Lihat Menu <i data-lucide="arrow-right" class="w-4 h-4 md:w-5 md:h-5"></i>
+                <div class="hero-anim hero-delay-3 flex flex-wrap gap-4 md:gap-5">
+                    <a href="#menu" class="btn-premium text-white px-8 py-3.5 md:px-10 md:py-4 rounded-full font-bold text-sm md:text-lg flex items-center gap-3">
+                        Lihat Menu <i data-lucide="arrow-down" class="w-4 h-4 md:w-5 md:h-5 animate-bounce"></i>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="bg-orange-600 py-6 md:py-10 overflow-hidden whitespace-nowrap">
-        <div class="flex space-x-10 md:space-x-20 animate-marquee text-white font-bold text-lg md:text-2xl uppercase tracking-widest opacity-90">
+    <section class="bg-gradient-to-r from-orange-600 to-orange-500 py-4 md:py-8 overflow-hidden whitespace-nowrap shadow-inner border-y border-orange-400/30 relative z-10">
+        <div class="flex space-x-10 md:space-x-20 animate-marquee text-white font-bold text-sm md:text-xl uppercase tracking-widest opacity-95 drop-shadow-md">
             <span>• 100% Halal Ingredients</span>
             <span>• Near Myeongdong Station</span>
-            <span>• Malaysian Hospitality</span>
+            <span>• Authentic Malaysian Taste</span>
             <span>• Open 12PM - 11PM</span>
             <span>• 100% Halal Ingredients</span>
             <span>• Near Myeongdong Station</span>
         </div>
     </section>
 
-    <section id="menu" class="py-16 lg:py-32 bg-slate-50 relative min-h-screen">
-        <div id="toast" class="fixed top-24 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-xl z-50 flex items-center gap-2 opacity-0 pointer-events-none transition-opacity duration-300">
-            <i data-lucide="check-circle-2" class="w-5 h-5 text-green-400"></i> Ditambah ke pesanan!
+    <section id="menu" class="py-20 lg:py-32 relative min-h-screen bg-pattern">
+        
+        <div id="toast" class="fixed bottom-28 md:bottom-auto md:top-28 left-1/2 transform -translate-x-1/2 bg-slate-900/90 backdrop-blur-md text-white px-6 py-4 rounded-2xl font-bold text-sm shadow-2xl shadow-slate-900/50 z-[100] flex items-center gap-3 opacity-0 pointer-events-none transition-all duration-300 translate-y-4 md:-translate-y-4 border border-slate-700">
+            <div class="bg-gradient-to-r from-green-400 to-green-500 rounded-full p-1 shadow-[0_0_10px_rgba(34,197,94,0.5)]"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+            <span id="toastMsg">Ditambah ke pesanan!</span>
         </div>
 
         <div class="container mx-auto px-4 md:px-6">
-            <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 italic text-slate-900">Food Menu</h2>
-                <div class="w-16 md:w-24 h-1 bg-orange-600 mx-auto mb-4 md:mb-6"></div>
-                <p class="text-slate-500 max-w-2xl mx-auto mb-8 text-sm md:text-base">Authentic recipes from Malaysia, cooked with love to cure your cravings.</p>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-[2.75rem] md:text-6xl lg:text-[4rem] font-bold mb-4 italic text-slate-900 font-serif tracking-tight">Food Menu</h2>
+                <div class="w-20 md:w-28 h-[3px] md:h-1 bg-[#ea580c] mx-auto mb-6"></div>
+                <p class="text-slate-500 max-w-2xl mx-auto mb-10 text-sm md:text-base font-medium">Authentic recipes from Malaysia, cooked with love to cure your cravings.</p>
                 
-                <div class="flex flex-wrap justify-center gap-2 md:gap-3">
-                    <button class="tab-btn active px-4 py-2 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-sm bg-white text-slate-600 border border-slate-200 transition-all hover:bg-slate-100" onclick="filterMenu('semua', this)">Semua Menu</button>
-                    <button class="tab-btn px-4 py-2 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-sm bg-white text-slate-600 border border-slate-200 transition-all hover:bg-slate-100" onclick="filterMenu('nasi', this)">Menu Nasi</button>
-                    <button class="tab-btn px-4 py-2 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-sm bg-white text-slate-600 border border-slate-200 transition-all hover:bg-slate-100" onclick="filterMenu('mee', this)">Mee & Roti</button>
-                    <button class="tab-btn px-4 py-2 md:px-6 md:py-2.5 rounded-full font-bold text-xs md:text-sm bg-white text-slate-600 border border-slate-200 transition-all hover:bg-slate-100" onclick="filterMenu('sampingan', this)">Sampingan</button>
+                <div class="w-full overflow-hidden relative">
+                    <div class="flex overflow-x-auto hide-scrollbar py-4 md:justify-center gap-3 md:gap-4 px-4 snap-x">
+                        <button type="button" class="tab-btn active snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('semua', this)">Semua Menu</button>
+                        <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('nasi', this)">Menu Nasi</button>
+                        <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('mee', this)">Mee & Roti</button>
+                        <button type="button" class="tab-btn snap-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm" onclick="filterMenu('sampingan', this)">Sampingan</button>
+                    </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10" id="menuGrid">
                 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499523062_17865098019391711_718399204533606337_n..jpg" alt="Nasi Goreng Kampung" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499523062_17865098019391711_718399204533606337_n..jpg" alt="Nasi Goreng Kampung" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Nasi Goreng Kampung</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">마레시아이아 나시고랭</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Nasi Goreng Kampung</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">마레시아이아 나시고랭</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Wok-fried rice with anchovies, chilies, vegetables, and a fried egg.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Wok-fried rice with anchovies, chilies, vegetables, and a fried egg.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Goreng Kampung', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Goreng Kampung', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="sampingan">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/498118348_17865098058391711_6573298530928638645_n..jpg" alt="Sate Ayam" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="absolute top-8 left-8 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] md:text-xs font-black px-3 md:px-4 py-1.5 rounded-full z-10 shadow-[0_4px_15px_rgba(234,88,12,0.4)] tracking-widest flex items-center gap-1">
+                            <i data-lucide="flame" class="w-3 h-3 animate-pulse"></i> BESTSELLER
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/498118348_17865098058391711_6573298530928638645_n..jpg" alt="Sate Ayam" class="w-full h-full object-cover img-hover-effect">
+                        </div>
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Sate Ayam</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">사테 치킨</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Sate Ayam</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">사테 치킨</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩16k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩16k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Marinated chicken skewers grilled to perfection, served with cucumber, onions, and rich peanut sauce.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Marinated chicken skewers grilled to perfection, served with cucumber, onions, and rich peanut sauce.</p>
                             </div>
-                            <button onclick="addToCart('Sate Ayam', 16000)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Sate Ayam', 16000)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="mee">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/497807829_17865098085391711_8956353530098556058_n..jpg" alt="Roti Canai Kuah Kari" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/497807829_17865098085391711_8956353530098556058_n..jpg" alt="Roti Canai Kuah Kari" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Roti Canai Kuah Kari</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">로티차나이 치킨 카레 소스</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Roti Canai Kuah Kari</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">로티차나이 치킨 카레 소스</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩9.5k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩9.5k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Flaky, pan-fried flatbread served with rich, aromatic chicken curry for dipping.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Flaky, pan-fried flatbread served with rich, aromatic chicken curry for dipping.</p>
                             </div>
-                            <button onclick="addToCart('Roti Canai Kuah Kari', 9500)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Roti Canai Kuah Kari', 9500)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499586780_17865098067391711_8053339437198580703_n..jpg" alt="Nasi Lemak Ayam Berempah" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="absolute top-8 left-8 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] md:text-xs font-black px-3 md:px-4 py-1.5 rounded-full z-10 shadow-[0_4px_15px_rgba(234,88,12,0.4)] tracking-widest flex items-center gap-1">
+                            <i data-lucide="flame" class="w-3 h-3 animate-pulse"></i> BESTSELLER
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499586780_17865098067391711_8053339437198580703_n..jpg" alt="Nasi Lemak Ayam Berempah" class="w-full h-full object-cover img-hover-effect">
+                        </div>
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Nasi Lemak Ayam Berempah</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">나시르막 향신료 치킨</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Nasi Lemak Ayam Berempah</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">나시르막 향신료 치킨</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩14k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩14k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Coconut rice with spiced, crispy fried chicken, served with sambal, peanuts, anchovies, and cucumber.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Coconut rice with spiced, crispy fried chicken, served with sambal, peanuts, anchovies, and cucumber.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Lemak Ayam Berempah', 14000)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Lemak Ayam Berempah', 14000)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/498125846_17865098040391711_7905897692146339060_n..jpg" alt="Nasi Ayam Hainan" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/498125846_17865098040391711_7905897692146339060_n..jpg" alt="Nasi Ayam Hainan" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Nasi Ayam Hainan</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">하이난 치킨 라이스</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Nasi Ayam Hainan</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">하이난 치킨 라이스</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Steamed chicken over aromatic garlic-ginger rice, served with ginger-chili, sweet soy, and tangy chili sauces.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Steamed chicken over aromatic garlic-ginger rice, served with ginger-chili, sweet soy, and tangy chili sauces.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Ayam Hainan', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Ayam Hainan', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/498228829_17865098031391711_3767035964742804666_n..jpg" alt="Ayam Buttermilk" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/498228829_17865098031391711_3767035964742804666_n..jpg" alt="Ayam Buttermilk" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate pr-2">Ayam Popcorn Buttermilk</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">버터밀크 팝콘 치킨 라이스</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate pr-2 text-slate-800">Ayam Popcorn Buttermilk</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">버터밀크 팝콘 치킨 라이스</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Creamy tomato-butter curry with tender popcorn chicken.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Creamy tomato-butter curry with tender popcorn chicken.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Putih Ayam Buttermilk', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Putih Ayam Buttermilk', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499631516_17865098106391711_5087517933888492083_n..jpg" alt="Ayam Rendang" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499631516_17865098106391711_5087517933888492083_n..jpg" alt="Ayam Rendang" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Nasi Putih Ayam Rendang</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">렌당 치킨 라이스</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Nasi Putih Ayam Rendang</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">렌당 치킨 라이스</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">White rice with tender chicken simmered in rich, coconut-spiced rendang gravy.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">White rice with tender chicken simmered in rich, coconut-spiced rendang gravy.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Putih Ayam Rendang', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Putih Ayam Rendang', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499071157_17865098097391711_7914082843201309990_n..jpg" alt="Ayam Gulai Lemak" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499071157_17865098097391711_7914082843201309990_n..jpg" alt="Ayam Gulai Lemak" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Ayam Gulai Lemak</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">코코넛 밀크 치킨찜밥</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Ayam Gulai Lemak</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">코코넛 밀크 치킨찜밥</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Steamed rice with chicken in a creamy, turmeric-coconut gulai sauce.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Steamed rice with chicken in a creamy, turmeric-coconut gulai sauce.</p>
                             </div>
-                            <button onclick="addToCart('Ayam Gulai Lemak', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Ayam Gulai Lemak', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/497763844_17865098124391711_1260531294798764237_n..jpg" alt="Ayam Merah" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/497763844_17865098124391711_1260531294798764237_n..jpg" alt="Ayam Merah" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Ayam Masak Merah</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">토마토 치킨찜밥</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Ayam Masak Merah</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">토마토 치킨찜밥</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">White rice topped with chicken in a tangy, tomato-spiced "red" gravy.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">White rice topped with chicken in a tangy, tomato-spiced "red" gravy.</p>
                             </div>
-                            <button onclick="addToCart('Ayam Masak Merah', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Ayam Masak Merah', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/498534465_17865098115391711_7954403641076221599_n..jpg" alt="Ayam Kicap" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/498534465_17865098115391711_7954403641076221599_n..jpg" alt="Ayam Kicap" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Ayam Kicap</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">간장치킨밥</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Ayam Kicap</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">간장치킨밥</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Steamed white rice topped with soy-braised chicken in a sweet-savory kecap manis sauce.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Steamed white rice topped with soy-braised chicken in a sweet-savory kecap manis sauce.</p>
                             </div>
-                            <button onclick="addToCart('Ayam Kicap', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Ayam Kicap', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="mee">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/498241601_17865098049391711_248562857045977418_n..jpg" alt="Meehoon Soto" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/498241601_17865098049391711_248562857045977418_n..jpg" alt="Meehoon Soto" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Meehoon Soto</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">미훈 소토</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Meehoon Soto</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">미훈 소토</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Fragrant rice vermicelli in a spiced chicken broth with shredded chicken, shredded beef, veges and cilantro.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Fragrant rice vermicelli in a spiced chicken broth with shredded chicken, shredded beef, veges and cilantro.</p>
                             </div>
-                            <button onclick="addToCart('Meehoon Soto', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Meehoon Soto', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499495995_17865098133391711_6086510362817113254_n..jpg" alt="Sup Daging" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499495995_17865098133391711_6086510362817113254_n..jpg" alt="Sup Daging" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Nasi Putih Sup Daging</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">소고기탕</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Nasi Putih Sup Daging</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">소고기탕</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Steamed rice served alongside a clear, aromatic beef soup with tender chunks of meat.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Steamed rice served alongside a clear, aromatic beef soup with tender chunks of meat.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Putih Sup Daging', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Putih Sup Daging', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499687268_17865098076391711_6428419817984286570_n..jpg" alt="Nasi Bujang" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499687268_17865098076391711_6428419817984286570_n..jpg" alt="Nasi Bujang" class="w-full h-full object-cover img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Nasi Bujang</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">혼밥 정식</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Nasi Bujang</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">혼밥 정식</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩9.5k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩9.5k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Steamed rice served with a fried egg, light chicken broth, and a spicy sambal sauce.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Steamed rice served with a fried egg, light chicken broth, and a spicy sambal sauce.</p>
                             </div>
-                            <button onclick="addToCart('Nasi Bujang', 9500)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Nasi Bujang', 9500)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499418527_17865713631391711_750687597205577579_n..jpg" alt="Beef Bulgogi" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="absolute top-8 left-8 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] md:text-xs font-black px-3 md:px-4 py-1.5 rounded-full z-10 shadow-[0_4px_15px_rgba(234,88,12,0.4)] tracking-widest flex items-center gap-1">
+                            <i data-lucide="flame" class="w-3 h-3 animate-pulse"></i> BESTSELLER
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499418527_17865713631391711_750687597205577579_n..jpg" alt="Beef Bulgogi" class="w-full h-full object-cover object-center img-hover-effect">
+                        </div>
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Beef Bulgogi</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">불고기</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Beef Bulgogi</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">불고기</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Marinated beef slices grilled to perfection, served over steamed rice with sesame and scallions.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Marinated beef slices grilled to perfection, served over steamed rice with sesame and scallions.</p>
                             </div>
-                            <button onclick="addToCart('Beef Bulgogi', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Beef Bulgogi', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="mee">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/499418527_17865713631391711_750687597205577579_n..jpg" alt="Rojak Mee" class="w-full h-full object-cover object-bottom group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/499418527_17865713631391711_750687597205577579_n..jpg" alt="Rojak Mee" class="w-full h-full object-cover object-bottom img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Rojak Mee</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">로작 미</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Rojak Mee</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">로작 미</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Yellow noodles with a mix of tofu, eggs, vegetables, and fritters, topped with a sweet and spicy peanut sauce.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Yellow noodles with a mix of tofu, eggs, vegetables, and fritters, topped with a sweet and spicy peanut sauce.</p>
                             </div>
-                            <button onclick="addToCart('Rojak Mee', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Rojak Mee', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="mee">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/500084969_17865713622391711_4818150978629737815_n..jpg" alt="Mi Goreng" class="w-full h-full object-cover object-top group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/500084969_17865713622391711_4818150978629737815_n..jpg" alt="Mi Goreng" class="w-full h-full object-cover object-top img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Mi Goreng</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">미 고랭</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Mi Goreng</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">미 고랭</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Stir-fried noodles with soy sauce, vegetables, and egg—savory and slightly sweet.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Stir-fried noodles with soy sauce, vegetables, and egg—savory and slightly sweet.</p>
                             </div>
-                            <button onclick="addToCart('Mi Goreng', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Mi Goreng', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="mee">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/500084969_17865713622391711_4818150978629737815_n..jpg" alt="Mee Kari" class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/500084969_17865713622391711_4818150978629737815_n..jpg" alt="Mee Kari" class="w-full h-full object-cover object-center img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Mee Kari</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">미 카리</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Mee Kari</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">미 카리</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩13.9k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩13.9k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Yellow noodles in a rich, spicy curry broth with chicken, tofu, and vegetables.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Yellow noodles in a rich, spicy curry broth with chicken, tofu, and vegetables.</p>
                             </div>
-                            <button onclick="addToCart('Mee Kari', 13900)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Mee Kari', 13900)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
 
                 <div class="menu-item-wrapper w-full" data-category="nasi">
-                    <div class="menu-card bg-white rounded-3xl md:rounded-[3rem] p-4 md:p-5 group h-full flex flex-col">
-                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2.5rem] bg-slate-200 overflow-hidden mb-6 relative shrink-0">
-                            <img src="images/500084969_17865713622391711_4818150978629737815_n..jpg" alt="Nasi Putih Ayam Popcorn" class="w-full h-full object-cover object-bottom group-hover:scale-110 transition duration-700">
+                    <div class="menu-card rounded-3xl md:rounded-[2.5rem] p-4 md:p-5 group h-full flex flex-col shadow-sm relative overflow-hidden">
+                        <div class="h-56 md:h-72 rounded-2xl md:rounded-[2rem] bg-slate-100 overflow-hidden mb-5 relative shrink-0">
+                            <img src="images/500084969_17865713622391711_4818150978629737815_n..jpg" alt="Ayam Popcorn" class="w-full h-full object-cover object-bottom img-hover-effect">
                         </div>
-                        <div class="px-2 md:px-4 pb-2 flex flex-col flex-1 justify-between">
+                        <div class="px-2 md:px-3 pb-2 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex justify-between items-start mb-2 md:mb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div class="w-3/4">
-                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition truncate">Ayam Popcorn</h3>
-                                        <p class="text-xs md:text-sm font-bold text-slate-400">팝콘 치킨 라이스</p>
+                                        <h3 class="text-lg md:text-xl font-bold group-hover:text-orange-600 transition-colors truncate text-slate-800">Ayam Popcorn</h3>
+                                        <p class="text-xs md:text-sm font-bold text-slate-400 mt-0.5">팝콘 치킨 라이스</p>
                                     </div>
-                                    <span class="text-orange-600 font-bold text-lg md:text-xl">₩9.5k</span>
+                                    <span class="text-orange-600 font-extrabold text-lg md:text-xl">₩9.5k</span>
                                 </div>
-                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3">Steamed rice served with crispy, bite-sized popcorn chicken and dipping sauce.</p>
+                                <p class="text-slate-500 text-xs md:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed mt-2">Steamed rice served with crispy, bite-sized popcorn chicken and dipping sauce.</p>
                             </div>
-                            <button onclick="addToCart('Ayam Popcorn', 9500)" class="w-full py-3 mt-4 rounded-xl bg-slate-900 text-white font-bold text-sm md:text-base hover:bg-orange-600 transition active:scale-95">TAMBAH ORDER</button>
+                            <button type="button" onclick="addToCart('Ayam Popcorn', 9500)" class="w-full py-3.5 mt-5 rounded-2xl btn-dark text-white font-bold text-sm md:text-base flex justify-center items-center gap-2 z-10 relative cursor-pointer">
+                                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> TAMBAH ORDER
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -547,173 +654,130 @@
     </section>
 
     <section id="location" class="py-16 lg:py-32 container mx-auto px-4 md:px-6">
-        <div class="bg-slate-900 rounded-[2rem] md:rounded-[4rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl">
-            <div class="lg:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center text-white">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 md:mb-8 italic">Singgah & Lepak!</h2>
+        <div class="bg-slate-900 rounded-[2rem] md:rounded-[3rem] overflow-hidden grid grid-cols-1 lg:grid-cols-2 shadow-2xl border border-slate-800 relative">
+            
+            <div class="p-8 md:p-12 lg:p-20 flex flex-col justify-center text-white bg-gradient-to-br from-slate-900 to-slate-800 relative z-10">
+                <span class="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Visit Us</span>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 italic font-serif leading-tight">Singgah & Lepak!</h2>
                 <div class="space-y-6 md:space-y-8">
-                    <div class="flex items-start gap-4 md:gap-6">
-                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-orange-500 shrink-0">
-                            <i data-lucide="map-pin" class="w-5 h-5 md:w-6 md:h-6"></i>
+                    <div class="flex items-start gap-4 md:gap-5">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-orange-500 shrink-0 shadow-inner">
+                            <i data-lucide="map-pin" class="w-5 h-5 md:w-5 md:h-5"></i>
                         </div>
-                        <p class="text-slate-300 text-base md:text-lg leading-relaxed">13-22 Namsan-dong 3(sam)-ga, <br>Jung District, Seoul, South Korea</p>
+                        <p class="text-slate-300 text-sm md:text-base leading-relaxed mt-1">13-22 Namsan-dong 3(sam)-ga, <br>Jung District, Seoul, South Korea</p>
                     </div>
-                    <div class="flex items-start gap-4 md:gap-6">
-                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center text-orange-500 shrink-0">
-                            <i data-lucide="clock" class="w-5 h-5 md:w-6 md:h-6"></i>
+                    <div class="flex items-start gap-4 md:gap-5">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-orange-500 shrink-0 shadow-inner">
+                            <i data-lucide="clock" class="w-5 h-5 md:w-5 md:h-5"></i>
                         </div>
-                        <div>
-                            <p class="text-slate-300 text-base md:text-lg">Setiap Hari: 12:00 PM - 11:00 PM</p>
-                            <p class="text-xs md:text-sm text-orange-500 mt-1">Sesuai untuk Late Night Dinner</p>
+                        <div class="mt-1">
+                            <p class="text-slate-300 text-sm md:text-base font-medium">Setiap Hari: 12:00 PM - 11:00 PM</p>
+                            <p class="text-xs text-orange-400 mt-1.5 font-bold tracking-wide uppercase">Sesuai untuk Late Night Dinner</p>
                         </div>
                     </div>
                 </div>
-                <div class="mt-8 md:mt-12 flex gap-4">
-                    <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12650.15570081232!2d126.97495574345514!3d37.56100115049386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2f033100657%3A0xc6443c52a0a200f6!2sMyeongdong%2C%20Seoul%2C%20South%20Korea!5e0!3m2!1sen!2smy!4v1712217820000!5m2!1sen!2smy" target="_blank" class="bg-white text-slate-900 px-6 py-3 md:px-8 md:py-4 rounded-2xl font-bold text-sm md:text-base flex items-center gap-2 hover:scale-105 transition w-max">
+                <div class="mt-10 md:mt-12 flex gap-4">
+                    <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12650.15570081232!2d126.97495574345514!3d37.56100115049386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2f033100657%3A0xc6443c52a0a200f6!2sMyeongdong%2C%20Seoul%2C%20South%20Korea!5e0!3m2!1sen!2smy!4v1712217820000!5m2!1sen!2smy" target="_blank" class="bg-white text-slate-900 px-6 py-3.5 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-bold text-sm flex items-center gap-2 hover:bg-orange-50 hover:text-orange-600 transition-all shadow-[0_10px_20px_rgba(255,255,255,0.1)] w-max">
                         BUKA GOOGLE MAPS <i data-lucide="external-link" class="w-4 h-4"></i>
                     </a>
                 </div>
             </div>
             
-            <div class="lg:w-1/2 bg-slate-800 h-64 md:min-h-[400px] flex items-center justify-center text-slate-500 italic">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12650.15570081232!2d126.97495574345514!3d37.56100115049386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2f033100657%3A0xc6443c52a0a200f6!2sMyeongdong%2C%20Seoul%2C%20South%20Korea!5e0!3m2!1sen!2smy!4v1712217820000!5m2!1sen!2smy" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="w-full min-h-[350px] lg:h-full relative bg-slate-800 z-0">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12650.15570081232!2d126.97495574345514!3d37.56100115049386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2f033100657%3A0xc6443c52a0a200f6!2sMyeongdong%2C%20Seoul%2C%20South%20Korea!5e0!3m2!1sen!2smy!4v1712217820000!5m2!1sen!2smy" class="absolute inset-0 w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 md:py-20 text-center border-t border-slate-100">
+    <footer class="py-12 md:py-20 text-center border-t border-slate-200/60 bg-white">
         <div class="container mx-auto px-6">
-            <div class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Lepak Laa <span class="text-orange-600">.</span></div>
-            <p class="text-slate-500 mb-8 md:mb-10 max-w-md mx-auto italic font-medium text-sm md:text-base">"Rumah kedua bagi anak Malaysia di Korea Selatan."</p>
+            <div class="flex justify-center items-center gap-2 mb-6 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-orange-500/30">L</div>
+                <div class="text-2xl md:text-3xl font-bold text-slate-900">Lepak Laa <span class="text-orange-600">.</span></div>
+            </div>
+            <p class="text-slate-500 mb-8 max-w-md mx-auto italic font-medium text-sm">"Rumah kedua bagi anak Malaysia di Korea Selatan."</p>
+            <div class="flex justify-center gap-6 mb-10">
+                <a href="https://instagram.com/lepaklaa" target="_blank" class="text-slate-400 hover:text-orange-500 transition-colors hover:-translate-y-1"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-orange-500 transition-colors hover:-translate-y-1"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+            </div>
             <div class="text-slate-400 text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold">
-                © 2026 Lepak Laa Restaurant Seoul | Crafted by Gemini
+                © 2026 Lepak Laa Restaurant Seoul | Crafted by Syah
             </div>
         </div>
     </footer>
 
-    <div id="bookingModal" class="fixed inset-0 z-[80] hidden bg-slate-900/50 backdrop-blur-sm flex items-center justify-center opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl md:text-2xl font-bold font-serif italic">Tempah Meja</h3>
-                <button onclick="toggleModal('bookingModal')" class="text-slate-400 hover:text-orange-600 transition"><i data-lucide="x"></i></button>
-            </div>
-            <p class="text-slate-500 mb-4 text-sm md:text-base">Sistem tempahan sedang diselenggara. Sila walk-in.</p>
-        </div>
-    </div>
+    <button type="button" id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-28 md:bottom-8 left-4 md:left-8 z-40 bg-slate-900 text-white p-3.5 md:p-4 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.3)] hover:bg-orange-600 hover:scale-110 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none">
+        <i data-lucide="arrow-up" class="w-5 h-5 md:w-6 md:h-6"></i>
+    </button>
 
-    <div id="cartOverlay" onclick="toggleCart()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[65] hidden opacity-0 transition-opacity duration-300"></div>
-    
-    <div id="cartSidebar" class="fixed inset-y-0 right-0 w-[90%] md:w-96 bg-white shadow-2xl z-[70] transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-lg font-bold flex items-center gap-2"><i data-lucide="shopping-bag" class="w-5 h-5 text-orange-600"></i> Troli Anda</h3>
-            <button onclick="toggleCart()" class="text-slate-400 hover:text-orange-600 transition p-2 bg-white rounded-full shadow-sm"><i data-lucide="x" class="w-5 h-5"></i></button>
-        </div>
+    <a href="https://wa.me/60123456789" target="_blank" class="fixed bottom-28 md:bottom-8 right-4 md:right-8 z-40 bg-gradient-to-tr from-green-500 to-green-400 text-white p-3.5 md:p-4 rounded-full shadow-[0_10px_25px_rgba(34,197,94,0.4)] hover:scale-110 transition-transform floating-wa border border-green-300">
+        <i data-lucide="message-circle" class="w-6 h-6 md:w-7 md:h-7 fill-current"></i>
+    </a>
 
-        <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 md:p-6 cart-scroll space-y-3">
-            <div class="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
-                <i data-lucide="shopping-cart" class="w-10 h-10 md:w-12 md:h-12 opacity-20"></i>
-                <p class="text-sm">Troli masih kosong</p>
+    <div id="mobileCartBar" class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-slate-200/50 p-4 z-50 transform translate-y-full transition-transform duration-400 shadow-[0_-20px_40px_rgba(0,0,0,0.06)]">
+        <div class="flex justify-between items-center max-w-md mx-auto">
+            <div>
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-0.5">Jumlah Pesanan</p>
+                <p id="mobileCartTotal" class="text-xl font-black text-slate-900">₩0</p>
             </div>
-        </div>
-
-        <div class="border-t border-slate-100 p-5 md:p-6 bg-white shadow-[0_-10px_20px_rgba(0,0,0,0.03)] relative z-10">
-            <div class="flex justify-between items-center mb-4 md:mb-6">
-                <span class="text-slate-500 font-medium text-sm">Jumlah:</span>
-                <span id="cartTotal" class="text-xl md:text-2xl font-bold text-slate-900">₩0</span>
-            </div>
-            <button onclick="checkoutWhatsApp()" class="w-full bg-[#25D366] text-white font-bold py-3 md:py-4 rounded-xl md:rounded-2xl flex justify-center items-center gap-2 hover:bg-[#1DA851] transition shadow-lg shadow-green-500/30 text-sm md:text-base">
-                <i data-lucide="message-circle" class="w-4 h-4 md:w-5 md:h-5"></i> Checkout WhatsApp
+            <button type="button" onclick="toggleCart()" class="btn-premium text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 active:scale-95 transition-transform text-sm shadow-md">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i> Lihat Troli (<span id="mobileCartCount">0</span>)
             </button>
         </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <div id="bookingModal" class="fixed inset-0 z-[80] hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl md:text-2xl font-bold font-serif italic text-slate-900">Tempah Meja</h3>
+                <button type="button" onclick="toggleModal('bookingModal')" class="text-slate-400 hover:text-orange-600 transition bg-slate-50 p-2 rounded-full hover:bg-orange-50"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <div class="text-center py-6">
+                <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
+                    <i data-lucide="wrench" class="w-8 h-8"></i>
+                </div>
+                <p class="text-slate-600 font-medium leading-relaxed">Sistem tempahan dalam talian sedang diselenggara. Sila <span class="font-bold text-slate-900">walk-in</span> ke restoran kami.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartOverlay" onclick="toggleCart()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[95] hidden opacity-0 transition-opacity duration-400"></div>
+    
+    <div id="cartSidebar" class="fixed inset-y-0 right-0 w-[90%] md:w-[400px] bg-white/95 backdrop-blur-xl shadow-2xl z-[100] transform translate-x-full transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) flex flex-col border-l border-white">
+        <div class="px-6 py-5 border-b border-slate-200/60 flex justify-between items-center">
+            <h3 class="text-lg font-bold flex items-center gap-2 text-slate-900"><i data-lucide="shopping-bag" class="w-5 h-5 text-orange-600"></i> Troli Anda</h3>
+            <button type="button" onclick="toggleCart()" class="text-slate-400 hover:text-orange-600 transition p-2 bg-slate-50 rounded-full shadow-sm border border-slate-100"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+
+        <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 md:p-6 cart-scroll space-y-3 bg-slate-50/30">
+            <div class="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
+                <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-2 shadow-inner border border-slate-100">
+                    <i data-lucide="shopping-cart" class="w-8 h-8 opacity-40 text-slate-500"></i>
+                </div>
+                <p class="text-sm font-medium">Troli masih kosong</p>
+            </div>
+        </div>
+
+        <div class="border-t border-slate-200/60 p-5 md:p-6 bg-white relative z-10 shadow-[0_-15px_30px_rgba(0,0,0,0.03)]">
+            <div class="flex justify-between items-end mb-5">
+                <span class="text-slate-500 font-bold text-[10px] md:text-xs uppercase tracking-widest">Jumlah Keseluruhan</span>
+                <span id="cartTotal" class="text-2xl md:text-3xl font-black text-slate-900 leading-none">₩0</span>
+            </div>
+            <button type="button" onclick="checkoutWhatsApp()" class="w-full bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white font-bold py-3.5 md:py-4 rounded-xl md:rounded-2xl flex justify-center items-center gap-2 hover:shadow-[0_10px_20px_rgba(37,211,102,0.3)] transition-shadow text-sm md:text-base active:scale-95">
+                <i data-lucide="message-circle" class="w-5 h-5 fill-current"></i> Checkout WhatsApp
+            </button>
+        </div>
+    </div>
+
     <script>
-        lucide.createIcons();
-        AOS.init({ duration: 1000, once: true });
-
-        particlesJS("particles-hero", {
-            "particles": {
-                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": ["#ea580c", "#fcd34d", "#fb923c"] },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
-                "size": { "value": 4, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.1, "sync": false } },
-                "line_linked": { "enable": false },
-                "move": { "enable": true, "speed": 1.5, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "bubble" }, "onclick": { "enable": false }, "resize": true },
-                "modes": { "bubble": { "distance": 200, "size": 6, "duration": 2, "opacity": 1, "speed": 3 } }
-            },
-            "retina_detect": true
-        });
-
-        window.onscroll = () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) navbar.classList.add('scrolled', 'shadow-xl');
-            else navbar.classList.remove('scrolled', 'shadow-xl');
-        };
-
-        // KOD UNTUK BUKA/TUTUP MENU FON
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            if (menu.classList.contains('translate-x-full')) {
-                menu.classList.remove('translate-x-full');
-            } else {
-                menu.classList.add('translate-x-full');
-            }
-        }
-
-        function filterMenu(category, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'bg-orange-600', 'text-white'));
-            btn.classList.add('active', 'bg-orange-600', 'text-white');
-
-            const grid = document.getElementById('menuGrid');
-            
-            grid.style.opacity = '0';
-            grid.style.transform = 'translateY(10px)';
-
-            setTimeout(() => {
-                const items = document.querySelectorAll('.menu-item-wrapper');
-                items.forEach(item => {
-                    if (category === 'semua' || item.dataset.category === category) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-                
-                grid.style.opacity = '1';
-                grid.style.transform = 'translateY(0)';
-                AOS.refresh();
-            }, 300);
-        }
-
-        document.querySelector('.tab-btn.active').classList.add('bg-orange-600', 'text-white');
-
-        function toggleModal(id) {
-            const m = document.getElementById(id);
-            const content = document.getElementById('modalContent');
-            if(m.classList.contains('hidden')){
-                m.classList.remove('hidden');
-                setTimeout(() => { m.classList.remove('opacity-0'); content?.classList.remove('scale-95'); }, 10);
-            } else {
-                m.classList.add('opacity-0'); content?.classList.add('scale-95');
-                setTimeout(() => { m.classList.add('hidden'); }, 300);
-            }
-        }
-
+        // --- 1. CORE SYSTEM: TROLI (Paling Penting!) ---
         let cart = []; 
-        const whatsappNumber = "60123456789"; // LETAK NO KAKAK
-
-        const cartSidebar = document.getElementById('cartSidebar');
-        const cartOverlay = document.getElementById('cartOverlay');
-        const cartCountBadge = document.getElementById('cartCount');
-        const cartItemsContainer = document.getElementById('cartItemsList');
-        const cartTotalText = document.getElementById('cartTotal');
+        const whatsappNumber = "60123456789"; // LETAK NOMBOR TELEFON KAKAK DI SINI
 
         function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
             if (cartSidebar.classList.contains('translate-x-full')) {
                 cartOverlay.classList.remove('hidden');
                 setTimeout(() => { cartOverlay.classList.remove('opacity-0'); }, 10);
@@ -729,8 +793,23 @@
             const existingItem = cart.find(item => item.name === itemName);
             if (existingItem) existingItem.qty += 1;
             else cart.push({ name: itemName, price: itemPrice, qty: 1 });
+            
             updateCartUI();
-            showToast(); 
+            showToast(itemName); 
+            
+            // Efek Bunga Api Selamat
+            try {
+                if (typeof confetti !== 'undefined') {
+                    confetti({
+                        particleCount: 50,
+                        spread: 70,
+                        origin: { y: 0.9 },
+                        colors: ['#ea580c', '#fb923c', '#fcd34d'],
+                        disableForReducedMotion: true,
+                        zIndex: 9999
+                    });
+                }
+            } catch(e) {}
         }
 
         function updateQuantity(index, change) {
@@ -741,48 +820,76 @@
 
         function updateCartUI() {
             const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-            cartCountBadge.innerText = totalQty;
             
+            const cartCountBadge = document.getElementById('cartCount');
+            cartCountBadge.innerText = totalQty;
             if(totalQty > 0) cartCountBadge.classList.remove('scale-0');
             else cartCountBadge.classList.add('scale-0');
 
+            const cartItemsContainer = document.getElementById('cartItemsList');
             cartItemsContainer.innerHTML = ''; 
             let totalPrice = 0;
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
                     <div class="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
-                        <i data-lucide="shopping-cart" class="w-10 h-10 md:w-12 md:h-12 opacity-20"></i>
-                        <p class="text-sm">Troli masih kosong</p>
+                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-2 shadow-inner border border-slate-100">
+                            <i data-lucide="shopping-cart" class="w-8 h-8 opacity-40 text-slate-500"></i>
+                        </div>
+                        <p class="text-sm font-medium">Troli masih kosong</p>
                     </div>`;
-                lucide.createIcons();
+                try { lucide.createIcons(); } catch(e) {}
             } else {
                 cart.forEach((item, index) => {
                     totalPrice += (item.price * item.qty);
                     const formattedPrice = new Intl.NumberFormat('en-US').format(item.price);
                     
                     cartItemsContainer.innerHTML += `
-                        <div class="bg-white border border-slate-100 p-3 md:p-4 rounded-xl md:rounded-2xl shadow-sm flex justify-between items-center gap-2 md:gap-4">
+                        <div class="bg-white border border-slate-100 p-3 md:p-4 rounded-xl md:rounded-2xl shadow-sm flex justify-between items-center gap-2 md:gap-4 transition-all hover:border-orange-200">
                             <div class="flex-1 min-w-0">
                                 <h4 class="font-bold text-slate-800 text-xs md:text-sm mb-1 truncate">${item.name}</h4>
-                                <p class="text-orange-600 font-bold text-xs md:text-sm">₩${formattedPrice}</p>
+                                <p class="text-orange-600 font-black text-xs md:text-sm">₩${formattedPrice}</p>
                             </div>
-                            <div class="flex items-center gap-2 md:gap-3 bg-slate-50 p-1 rounded-lg border border-slate-100 shrink-0">
-                                <button onclick="updateQuantity(${index}, -1)" class="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-white text-slate-500 hover:text-red-500 shadow-sm">-</button>
-                                <span class="font-bold text-xs md:text-sm w-3 md:w-4 text-center">${item.qty}</span>
-                                <button onclick="updateQuantity(${index}, 1)" class="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-white text-slate-500 hover:text-green-500 shadow-sm">+</button>
+                            <div class="flex items-center gap-2 md:gap-3 bg-slate-50 p-1 rounded-lg border border-slate-200 shrink-0">
+                                <button type="button" onclick="updateQuantity(${index}, -1)" class="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-white text-slate-500 hover:text-red-500 shadow-sm transition-colors"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                                <span class="font-bold text-xs md:text-sm w-3 md:w-5 text-center text-slate-800">${item.qty}</span>
+                                <button type="button" onclick="updateQuantity(${index}, 1)" class="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-white text-slate-500 hover:text-green-500 shadow-sm transition-colors"><i data-lucide="plus" class="w-3 h-3"></i></button>
                             </div>
                         </div>
                     `;
                 });
+                try { lucide.createIcons(); } catch(e) {}
             }
-            cartTotalText.innerText = `₩${new Intl.NumberFormat('en-US').format(totalPrice)}`;
+            
+            const totalFormatted = `₩${new Intl.NumberFormat('en-US').format(totalPrice)}`;
+            document.getElementById('cartTotal').innerText = totalFormatted;
+
+            const mobileCartBar = document.getElementById('mobileCartBar');
+            document.getElementById('mobileCartTotal').innerText = totalFormatted;
+            document.getElementById('mobileCartCount').innerText = totalQty;
+            
+            if(totalQty > 0) {
+                mobileCartBar.classList.remove('translate-y-full');
+                document.body.style.paddingBottom = '80px';
+            } else {
+                mobileCartBar.classList.add('translate-y-full');
+                document.body.style.paddingBottom = '0px';
+            }
         }
 
-        function showToast() {
+        let toastTimeout;
+        function showToast(itemName) {
             const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0');
-            setTimeout(() => { toast.classList.add('opacity-0'); }, 2000);
+            document.getElementById('toastMsg').innerText = `${itemName} ditambah!`;
+            
+            clearTimeout(toastTimeout);
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            
+            toastTimeout = setTimeout(() => { 
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4'); 
+            }, 2500);
         }
 
         function checkoutWhatsApp() {
@@ -804,6 +911,102 @@
             const encodedText = encodeURIComponent(textMessage);
             window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, '_blank');
         }
+
+        // --- 2. LOGIC MENU & LAIN-LAIN ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu.classList.contains('translate-x-full')) {
+                menu.classList.remove('translate-x-full');
+            } else {
+                menu.classList.add('translate-x-full');
+            }
+        }
+
+        function toggleModal(id) {
+            const m = document.getElementById(id);
+            const content = document.getElementById('modalContent');
+            if(m.classList.contains('hidden')){
+                m.classList.remove('hidden');
+                setTimeout(() => { m.classList.remove('opacity-0'); content?.classList.remove('scale-95'); }, 10);
+            } else {
+                m.classList.add('opacity-0'); content?.classList.add('scale-95');
+                setTimeout(() => { m.classList.add('hidden'); }, 300);
+            }
+        }
+
+        function filterMenu(category, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active', 'bg-orange-600', 'text-white');
+                b.classList.add('bg-white', 'text-slate-500');
+            });
+            btn.classList.remove('bg-white', 'text-slate-500');
+            btn.classList.add('active', 'bg-orange-600', 'text-white');
+
+            const grid = document.getElementById('menuGrid');
+            grid.style.opacity = '0';
+            grid.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                const items = document.querySelectorAll('.menu-item-wrapper');
+                items.forEach(item => {
+                    if (category === 'semua' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                grid.style.opacity = '1';
+                grid.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                scrollTopBtn.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                scrollTopBtn.classList.remove('opacity-100', 'translate-y-0');
+            }
+        });
+
+        // --- 3. KOSMETIK (Dibalut dlm try-catch supaya tak crash sistem utama) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            try { lucide.createIcons(); } catch(e) {}
+            
+            try {
+                if(typeof AOS !== 'undefined') {
+                    AOS.init({ duration: 800, once: true, offset: 50, disable: 'mobile' });
+                }
+            } catch(e) {}
+
+            try {
+                if(typeof particlesJS !== 'undefined') {
+                    particlesJS("particles-hero", {
+                        "particles": {
+                            "number": { "value": 20, "density": { "enable": true, "value_area": 800 } },
+                            "color": { "value": ["#ea580c", "#fcd34d", "#fb923c"] },
+                            "shape": { "type": "circle" },
+                            "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                            "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.1, "sync": false } },
+                            "line_linked": { "enable": false },
+                            "move": { "enable": true, "speed": 1, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+                        },
+                        "interactivity": {
+                            "detect_on": "canvas",
+                            "events": { "onhover": { "enable": false }, "onclick": { "enable": false }, "resize": true }
+                        },
+                        "retina_detect": true
+                    });
+                }
+            } catch(e) {}
+        });
     </script>
 </body>
 </html>
